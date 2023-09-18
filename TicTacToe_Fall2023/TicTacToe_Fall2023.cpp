@@ -95,11 +95,13 @@ int main()
                 sprintf_s(userString, MAX_CHARS, PLAYER_WIN, board.getPlayer());
                 console.writeOutput(userString);
                 board.resetBoard();
+                board.nextPlayer();  // player who lost gets to go first
             }
             else if (board.isDraw()) {  // a draw?
                 console.writeTicTacToeBoard(board); 
                 console.writeOutput(PLAYER_DRAW);
                 board.resetBoard();
+                board.nextPlayer();  // player who made the last move, gets to go second
             }
 
             else {                    // the game goes on
