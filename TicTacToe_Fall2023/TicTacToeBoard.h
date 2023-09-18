@@ -24,6 +24,7 @@ class TicTacToeBoard
 
 	char board[NUM_ROWS][NUM_COLS];
 	char player;
+	int takenSquareCount;
 
 
 
@@ -34,5 +35,8 @@ public:
 	int writeSquare(int row, int col, char currentPlayer);
 	char getSquareContents(int row, int col);
 	char getPlayer();
+	char nextPlayer();   // swap player for next move, returns player
+	bool isWinner(char playerToCheck); // check if specified player has won
+	bool isDraw(); // check if a draw
 };
 

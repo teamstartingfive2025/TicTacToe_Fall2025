@@ -58,6 +58,7 @@ int TicTacToeUI::writeOutput(string output) {
 
 int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) {
     // loop thru all rows and all columns, retrieving contents from board class & displaying
+    cout << "\n";
     for (int r = 0; r < NUM_ROWS; r++) {
         for (int c = 0; c < NUM_COLS; c++) {
             cout << " " << board.getSquareContents(r,c);
@@ -67,7 +68,7 @@ int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) {
         if (r < NUM_ROWS - 1)
             cout << "\n------------\n";
         else
-            cout << "\n";
+            cout << "\n\n";
     }
     return(0);
 }

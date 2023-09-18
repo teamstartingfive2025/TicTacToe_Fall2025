@@ -20,36 +20,69 @@ int main()
     while (userInput[0] != 'q') {
         // braindead parsing of userInput
         int charPos = 0;
-        while (isspace(userInput[charPos]) and userInput[charPos] != '\0') { // get rid of leading white space
+        while (isspace(userInput[charPos]) && userInput[charPos] != '\0') { // get rid of leading white space
             charPos++;
-            cout << "deleting leading whitespace\n";
             continue;
         }
-        while (!isspace(userInput[charPos]) and userInput[charPos] != '\0') {
+        while (!isspace(userInput[charPos]) && userInput[charPos] != '\0') {
             inputSplit[0] += userInput[charPos];
-            cout << "saving row\n";
             charPos++;
             continue;
         }
-        while (isspace(userInput[charPos]) and userInput[charPos] != '\0') { // spaces between row & column
+        while (isspace(userInput[charPos]) && userInput[charPos] != '\0') { // spaces between row & column
             charPos++;
-            cout << "moving past separator\n";
             continue;
         }
-        while (!isspace(userInput[charPos]) and userInput[charPos] != '\0') {
+        while (!isspace(userInput[charPos]) && userInput[charPos] != '\0') {
             inputSplit[1] += userInput[charPos];
-            cout << "saving col\n";
             charPos++;
             continue;
         }
+
+        if ((inputSplit[0].length() == 0) || (inputSplit[1].length() == 0)) {
+            cout << "Invalid entry, please try again\n";
+            // read next line
+            inputSplit[0] = ""; inputSplit[1] = "";
+            userInput = console.getUserInput("Enter row & column: ");
+            continue;
+        }
+
         int row = stoi(inputSplit[0]);
         int col = stoi(inputSplit[1]);
-        cout << row << "  " << col << "\n";
+        cout << "Row: " << row << "  Col: " << col << "\n";
+
+
+        // core game logic below
+        //  if valid move (ie square is empty)
+        //    log the move &
+        //    check if game is over
+        // ToDo- use UI class for output
 
         if (board.isSquareEmpty(row, col)) {
-            board.writeSquare(row, col, 'X');
+            board.writeSquare(row, col, board.getPlayer());
+            console.writeTicTacToeBoard(board);
+            if (board.isWinner(board.getPlayer())) {
+                cout << "Player " << board.getPlayer() << " has won!\n";
+                cout << "Resetting board, q to exit\n";
+                board.resetBoard();
+            }
+            else if (board.isDraw()) {
+                cout << "It is a Draw!\n";
+                cout << "Resetting board, q to exit\n";
+                board.resetBoard();
+            }
+            // else - no winner or draw yet
+            else {
+                board.nextPlayer();
+                cout << "Player " << board.getPlayer() << " to play\n";
+            }
+        }
+        else {        // square already taken
+            cout << "Invalid move! Square already taken - player " << board.getPlayer() << " to try again\n";
             console.writeTicTacToeBoard(board);
         }
+
+
 
         // read next line
         inputSplit[0] = ""; inputSplit[1] = "";
