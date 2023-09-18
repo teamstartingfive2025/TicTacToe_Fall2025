@@ -17,15 +17,15 @@ class TicTacToeBoard
 
 private:  // reserve memory for board & current player
 	char board[BOARD_NUM_ROWS][BOARD_NUM_COLS];
-	char player;
-	int takenSquareCount;
+	char player = INITIAL_PLAYER;
+	int takenSquareCount = 0;
 
 
 public:
 	TicTacToeBoard();
-	int resetBoard();
-	bool isSquareEmpty(int row, int col);
-	int writeSquare(int row, int col, char currentPlayer);
+	void resetBoard();
+	bool isSquareEmpty(int row, int col) const;
+	bool writeSquare(int row, int col, char currentPlayer);  // returns true if successfully written, false on failure
 	char getSquareContents(int row, int col);
 	char getPlayer();
 	char nextPlayer();   // swap player for next move, returns player

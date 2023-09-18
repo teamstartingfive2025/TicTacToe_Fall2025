@@ -9,36 +9,36 @@
  * ToDo - create define or constant for Error returns
 */
 
-// empty constructor
+// Constructor
+//   reset board, player intialized in .h file when memory allocated
 TicTacToeBoard::TicTacToeBoard() {
 	resetBoard();
-	player = INITIAL_PLAYER;  // ToDo - move this to a helper function within the class, e.g. setPlayer()
 }
 
-int TicTacToeBoard::resetBoard() {
+void TicTacToeBoard::resetBoard() {
 	takenSquareCount = 0;
 	for (int r = 0; r < BOARD_NUM_ROWS; r++) {
 		for (int c = 0; c < BOARD_NUM_COLS; c++) {
 			board[r][c] = ' ';
 		}
 	}
-	return (0);
 }
 
-bool TicTacToeBoard::isSquareEmpty(int row, int col) {
+bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 	if (board[row][col] == ' ')
 		return true;
 	else
 		return false;
 }
 
-int TicTacToeBoard::writeSquare(int row, int col, char currentPlayer) {
+bool TicTacToeBoard::writeSquare(int row, int col, char currentPlayer) {
 	if (this -> isSquareEmpty(row, col)) {
 		board[row][col] = currentPlayer;
 		takenSquareCount++;
+		return true;
 	}
 	else {
-		return(99);
+		return false;
 	}
 }
 
@@ -92,7 +92,7 @@ bool TicTacToeBoard::isWinner(char playerToCheck) {
 
 // Draw - all squares filled and no one has one
 bool TicTacToeBoard::isDraw() {
-	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && !this->isWinner('X') and !this->isWinner('O')) {
+	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && !this->isWinner('X') && !this->isWinner('O')) {
 		return (true);
 	}
 	else
