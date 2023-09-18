@@ -17,8 +17,8 @@ TicTacToeBoard::TicTacToeBoard() {
 
 int TicTacToeBoard::resetBoard() {
 	takenSquareCount = 0;
-	for (int r = 0; r < NUM_ROWS; r++) {
-		for (int c = 0; c < NUM_COLS; c++) {
+	for (int r = 0; r < BOARD_NUM_ROWS; r++) {
+		for (int c = 0; c < BOARD_NUM_COLS; c++) {
 			board[r][c] = ' ';
 		}
 	}
@@ -60,7 +60,7 @@ char TicTacToeBoard::nextPlayer() {
 
 bool TicTacToeBoard::isWinner(char playerToCheck) {
 	// check rows
-	for (int r = 0; r < NUM_ROWS; r++) {
+	for (int r = 0; r < BOARD_NUM_ROWS; r++) {
 		if ((board[r][0] == playerToCheck) &&
 			(board[r][1] == playerToCheck) &&
 			(board[r][2] == playerToCheck))
@@ -68,7 +68,7 @@ bool TicTacToeBoard::isWinner(char playerToCheck) {
 	}
 
 	// check columns
-	for (int c = 0; c < NUM_ROWS; c++) {
+	for (int c = 0; c < BOARD_NUM_COLS; c++) {
 		if ((board[0][c] == playerToCheck) &&
 			(board[1][c] == playerToCheck) &&
 			(board[2][c] == playerToCheck))
@@ -89,8 +89,10 @@ bool TicTacToeBoard::isWinner(char playerToCheck) {
 	return(false);              // no winner this time
 }
 
+
+// Draw - all squares filled and no one has one
 bool TicTacToeBoard::isDraw() {
-	if ((takenSquareCount >= NUM_ROWS * NUM_COLS) && !this->isWinner('X') and !this->isWinner('O')) {
+	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && !this->isWinner('X') and !this->isWinner('O')) {
 		return (true);
 	}
 	else

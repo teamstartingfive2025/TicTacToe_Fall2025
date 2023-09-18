@@ -5,105 +5,118 @@
 #include "TicTacToeUI.h"
 #include "TicTacToeBoard.h"
 
+#define MAX_CHARS 128     // max size of the user output buffer
+
+// User Messages - format intended for sprintf_s
+char INTRO_MESSAGE[MAX_CHARS] = "Welcome to Tic Tac Toe, class of Fall 2023!\n";
+char ENTER_MOVE[MAX_CHARS] = "Player %c to play, please enter two digits, row[0 - 2] & column[0 - 2] or q to exit: ";
+char SHOW_MOVE[MAX_CHARS] = "You entered ... Row: %u\tColumn: %u\n";
+
+// Game over messages
+char PLAYER_WIN[MAX_CHARS] = "Player %c has won!\n   Resetting board, q to exit\n";
+char PLAYER_DRAW[MAX_CHARS] = "It's a DRAW!\n   Resetting board, q to exit\n";
+
+// Error messages
+char INVALID_COMMAND[MAX_CHARS] = "Invalid entry - please try again\n";
+char SQUARE_NOT_EMPTY[MAX_CHARS] = "Invalid move!Square already taken - player %c to try again\n";
+char EXIT_MESSAGE[MAX_CHARS] = "Thank you for playing\n";
+
+
+
 int main()
 {
-    TicTacToeUI console;    // UI encapsulation - rather than directly writing to console - ToDo fix issues in parser class
+    TicTacToeUI console;    // UI encapsulation - rather than directly writing to console
     TicTacToeBoard board;
 
-    string inputSplit[2];   // ToDo - get rid of magic #
+    char userString[MAX_CHARS];
 
-    console.writeOutput("Welcome to Tic Tac Toe, class of Fall 2023!\n");
-    console.writeTicTacToeBoard(board);
+    // local variables
+    int num_args;   // # of arguments returned from scanner
+    char command = '?';   // if command is entered, currently only quit supported ('q')
+    unsigned int row;        // row entered by user
+    unsigned int col;        // column entered by user
 
-    // write instuctions
-    string userInput = console.getUserInput("Enter row & column: ");
-    while (userInput[0] != 'q') {
-        // braindead parsing of userInput
-        int charPos = 0;
-        while (isspace(userInput[charPos]) && userInput[charPos] != '\0') { // get rid of leading white space
-            charPos++;
-            continue;
-        }
-        while (!isspace(userInput[charPos]) && userInput[charPos] != '\0') {
-            inputSplit[0] += userInput[charPos];
-            charPos++;
-            continue;
-        }
-        while (isspace(userInput[charPos]) && userInput[charPos] != '\0') { // spaces between row & column
-            charPos++;
-            continue;
-        }
-        while (!isspace(userInput[charPos]) && userInput[charPos] != '\0') {
-            inputSplit[1] += userInput[charPos];
-            charPos++;
-            continue;
-        }
+    console.writeOutput(INTRO_MESSAGE);
 
-        if ((inputSplit[0].length() == 0) || (inputSplit[1].length() == 0)) {
-            cout << "Invalid entry, please try again\n";
-            // read next line
-            inputSplit[0] = ""; inputSplit[1] = "";
-            userInput = console.getUserInput("Enter row & column: ");
+    // ToDo - game play instuctions
+    //
+    // Game loop
+    //     input options - row/column to play, or exit (can quit at any time)
+    //     parse input
+    //        command - currently only 'q' for quit or
+    //        row & column - two digits, 0-2 (note - board has constants for these values - ToDo)
+    //     after parsing input
+    //        update the board with the players move (assuming valid move)
+    //        check for win or draw
+    do {
+        console.writeTicTacToeBoard(board); 
+        sprintf_s(userString, MAX_CHARS, ENTER_MOVE, board.getPlayer());
+        string userInput = console.getUserInput(userString);
+
+        // parse input string for single character
+        num_args = sscanf_s(userInput.c_str(), "%c", &command, 1);
+
+        if (num_args == 0) {  // no character entered, digits seem to work okay here
+            console.writeOutput(INVALID_COMMAND);
             continue;
         }
 
-        int row = stoi(inputSplit[0]);
-        int col = stoi(inputSplit[1]);
-        cout << "Row: " << row << "  Col: " << col << "\n";
+        // user wants to exit?
+        if ((num_args == 1) && (command == 'q')) {
+            console.writeOutput(EXIT_MESSAGE);
+            exit(0);
+        }
+
+        // Wasn't a command - check if row & column entered
+        //   must be two unsigned integers between 0 & 2 (BAD - use board class constants)
+        num_args = sscanf_s(userInput.c_str(), "%u %u", &row, &col);
+        if ((num_args != 2) || (row > 2) || (col > 2)) {
+            console.writeOutput(INVALID_COMMAND);
+            continue;
+        }
+        sprintf_s(userString, MAX_CHARS, SHOW_MOVE, row, col);
+        console.writeOutput(userString);
 
 
         // core game logic below
         //  if valid move (ie square is empty)
         //    log the move &
-        //    check if game is over
-        // ToDo- use UI class for output
+        //    check if game is over (win or draw)
+        //       congratulate the player & start again
+        //  else - user selected a square already taken
+        //     politely ask them to try again
 
         if (board.isSquareEmpty(row, col)) {
             board.writeSquare(row, col, board.getPlayer());
-            console.writeTicTacToeBoard(board);
-            if (board.isWinner(board.getPlayer())) {
-                cout << "Player " << board.getPlayer() << " has won!\n";
-                cout << "Resetting board, q to exit\n";
+
+
+            if (board.isWinner(board.getPlayer())) {  // a win?
+                console.writeTicTacToeBoard(board); 
+                sprintf_s(userString, MAX_CHARS, PLAYER_WIN, board.getPlayer());
+                console.writeOutput(userString);
                 board.resetBoard();
             }
-            else if (board.isDraw()) {
-                cout << "It is a Draw!\n";
-                cout << "Resetting board, q to exit\n";
+            else if (board.isDraw()) {  // a draw?
+                console.writeTicTacToeBoard(board); 
+                console.writeOutput(PLAYER_DRAW);
                 board.resetBoard();
             }
-            // else - no winner or draw yet
-            else {
+
+            else {                    // the game goes on
                 board.nextPlayer();
-                cout << "Player " << board.getPlayer() << " to play\n";
             }
         }
         else {        // square already taken
-            cout << "Invalid move! Square already taken - player " << board.getPlayer() << " to try again\n";
-            console.writeTicTacToeBoard(board);
+            // cout << "Invalid move! Square already taken - player " << board.getPlayer() << " to try again\n";
+            sprintf_s(userString, MAX_CHARS, SQUARE_NOT_EMPTY, board.getPlayer());
+            console.writeOutput(userString);
         }
-
-
-
-        // read next line
-        inputSplit[0] = ""; inputSplit[1] = "";
-        userInput = console.getUserInput("Enter row & column: ");
-    }
+    } while (1);
 
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
-
-
-/*
+/*  Initial high level design - some changes, primarily validation logic moved into main()
    UI
         handles all input & output to console
         knows how to display the board, uses board object to populate

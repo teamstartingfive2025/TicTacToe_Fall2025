@@ -5,8 +5,9 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <algorithm>
 #include "TicTacToeUI.h"
-#include "TicTacToeBoard.h"
+#include "TicTacToeBoard.h"  // required for displaying board which is maintained by the board class
 
 /* Tic Tac Toe UI Class
  * Scope:
@@ -17,7 +18,7 @@
  *      getUserInput() writes prompt to console, blocks on user input (terminated by new line), returns input
  *      writeOutput()  writes output to console & returns 0 indicating no error,
  *        in future write errors may contain an error code
- *      writeTicTacToeBoard() writes blank board to console
+ *      writeTicTacToeBoard(board) displays current board to console
  *
  * Instance Variables:
  *   None
@@ -33,16 +34,15 @@ TicTacToeUI::TicTacToeUI() {
 // getUserInput()
 //   prompts user with string included in call
 //   waits for user input, echoes the input & returns it to caller
-//   ToDo - ignore leading white space
+//     note: does not trim leading white space
 
 string TicTacToeUI::getUserInput(string prompt) {
     string userInput;
 
     writeOutput(prompt);
     getline(cin, userInput);
-    for (int c = 0; c < userInput.length(); c++) {
-        tolower(userInput[c]);
-    }
+        // convert to lower case, requires algorithm library
+    transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
     return userInput;
 }
 
@@ -59,13 +59,13 @@ int TicTacToeUI::writeOutput(string output) {
 int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) {
     // loop thru all rows and all columns, retrieving contents from board class & displaying
     cout << "\n";
-    for (int r = 0; r < NUM_ROWS; r++) {
-        for (int c = 0; c < NUM_COLS; c++) {
+    for (int r = 0; r < BOARD_NUM_ROWS; r++) {
+        for (int c = 0; c < BOARD_NUM_COLS; c++) {
             cout << " " << board.getSquareContents(r,c);
-            if (c < NUM_COLS - 1)
+            if (c < BOARD_NUM_COLS - 1)
                 cout << " |";
         }
-        if (r < NUM_ROWS - 1)
+        if (r < BOARD_NUM_ROWS - 1)
             cout << "\n------------\n";
         else
             cout << "\n\n";
