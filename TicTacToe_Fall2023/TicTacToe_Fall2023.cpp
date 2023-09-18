@@ -3,12 +3,59 @@
 
 #include <iostream>
 #include "TicTacToeUI.h"
+#include "TicTacToeBoard.h"
 
 int main()
 {
     TicTacToeUI console;    // UI encapsulation - rather than directly writing to console - ToDo fix issues in parser class
+    TicTacToeBoard board;
+
+    string inputSplit[2];   // ToDo - get rid of magic #
+
     console.writeOutput("Welcome to Tic Tac Toe, class of Fall 2023!\n");
-    console.writeTicTacToeBoard();
+    console.writeTicTacToeBoard(board);
+
+    // write instuctions
+    string userInput = console.getUserInput("Enter row & column: ");
+    while (userInput[0] != 'q') {
+        // braindead parsing of userInput
+        int charPos = 0;
+        while (isspace(userInput[charPos]) and userInput[charPos] != '\0') { // get rid of leading white space
+            charPos++;
+            cout << "deleting leading whitespace\n";
+            continue;
+        }
+        while (!isspace(userInput[charPos]) and userInput[charPos] != '\0') {
+            inputSplit[0] += userInput[charPos];
+            cout << "saving row\n";
+            charPos++;
+            continue;
+        }
+        while (isspace(userInput[charPos]) and userInput[charPos] != '\0') { // spaces between row & column
+            charPos++;
+            cout << "moving past separator\n";
+            continue;
+        }
+        while (!isspace(userInput[charPos]) and userInput[charPos] != '\0') {
+            inputSplit[1] += userInput[charPos];
+            cout << "saving col\n";
+            charPos++;
+            continue;
+        }
+        int row = stoi(inputSplit[0]);
+        int col = stoi(inputSplit[1]);
+        cout << row << "  " << col << "\n";
+
+        if (board.isSquareEmpty(row, col)) {
+            board.writeSquare(row, col, 'X');
+            console.writeTicTacToeBoard(board);
+        }
+
+        // read next line
+        inputSplit[0] = ""; inputSplit[1] = "";
+        userInput = console.getUserInput("Enter row & column: ");
+    }
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "TicTacToeUI.h"
+#include "TicTacToeBoard.h"
 
 /* Tic Tac Toe UI Class
  * Scope:
@@ -32,12 +33,16 @@ TicTacToeUI::TicTacToeUI() {
 // getUserInput()
 //   prompts user with string included in call
 //   waits for user input, echoes the input & returns it to caller
+//   ToDo - ignore leading white space
 
 string TicTacToeUI::getUserInput(string prompt) {
     string userInput;
 
     writeOutput(prompt);
     getline(cin, userInput);
+    for (int c = 0; c < userInput.length(); c++) {
+        tolower(userInput[c]);
+    }
     return userInput;
 }
 
@@ -48,14 +53,21 @@ int TicTacToeUI::writeOutput(string output) {
     return(0);
 }
 
-// writeTicTacToeBoard()
-//   initially keep it simple, hard code everything
-// ToDo: switch to a formatted print, retrieving contents from board class
-int TicTacToeUI::writeTicTacToeBoard() {
-    cout << "   |   |   \n";  // row 0
-    cout << "_________\n";
-    cout << "   |   |   \n";  // row 1
-    cout << "_________\n";
-    cout << "   |   |   \n";  // row 2
+// Draws board based on data from board class
+// Issues - hard coding last row & column to avoid drawing delimiter - e.g. |
+
+int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) {
+    // loop thru all rows and all columns, retrieving contents from board class & displaying
+    for (int r = 0; r < NUM_ROWS; r++) {
+        for (int c = 0; c < NUM_COLS; c++) {
+            cout << " " << board.getSquareContents(r,c);
+            if (c < NUM_COLS - 1)
+                cout << " |";
+        }
+        if (r < NUM_ROWS - 1)
+            cout << "\n------------\n";
+        else
+            cout << "\n";
+    }
     return(0);
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include "TicTacToeBoard.h"
+
 using namespace std;  // fair programming practice, as could create scope issues, but don't feel like qualifying all reads & writes
 
 /*
@@ -16,6 +18,6 @@ public:
 	TicTacToeUI();
 	int writeOutput(string output);
 	string getUserInput(string prompt);
-	int writeTicTacToeBoard();  // write blank board, version with actual squares filled in tbd later
+	int writeTicTacToeBoard(TicTacToeBoard board);
 };
 
