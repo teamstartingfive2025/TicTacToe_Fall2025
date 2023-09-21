@@ -60,13 +60,14 @@ int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) {
     // loop thru all rows and all columns, retrieving contents from board class & displaying
     cout << "\n";
     for (int r = 0; r < BOARD_NUM_ROWS; r++) {
+        cout << "\t\t\t\t";
         for (int c = 0; c < BOARD_NUM_COLS; c++) {
             cout << " " << board.getSquareContents(r,c);
             if (c < BOARD_NUM_COLS - 1)
                 cout << " |";
         }
         if (r < BOARD_NUM_ROWS - 1)
-            cout << "\n------------\n";
+            cout << "\n\t\t\t\t------------\n";
         else
             cout << "\n\n";
     }

@@ -8,18 +8,19 @@
 #define MAX_CHARS 128     // max size of the user output buffer
 
 // User Messages - format intended for sprintf_s
+//   ToDo - mark as constants
 char INTRO_MESSAGE[MAX_CHARS] = "Welcome to Tic Tac Toe, class of Fall 2023!\n";
 char ENTER_MOVE[MAX_CHARS] = "Player %c to play, please enter two digits, row[0 - 2] & column[0 - 2] or q to exit: ";
 char SHOW_MOVE[MAX_CHARS] = "You entered ... Row: %u\tColumn: %u\n";
 
 // Game over messages
-char PLAYER_WIN[MAX_CHARS] = "Player %c has won!\n   Resetting board, q to exit\n";
-char PLAYER_DRAW[MAX_CHARS] = "It's a DRAW!\n   Resetting board, q to exit\n";
+char PLAYER_WIN[MAX_CHARS] = "\tPlayer %c has won!\n   Resetting board, q to exit\n";
+char PLAYER_DRAW[MAX_CHARS] = "\tIt's a DRAW!\n   Resetting board, q to exit\n";
 
 // Error messages
-char INVALID_COMMAND[MAX_CHARS] = "Invalid entry - please try again\n";
-char SQUARE_NOT_EMPTY[MAX_CHARS] = "Invalid move!Square already taken - player %c to try again\n";
-char EXIT_MESSAGE[MAX_CHARS] = "Thank you for playing\n";
+char INVALID_COMMAND[MAX_CHARS] = "\t\t\tInvalid entry - please try again\n";
+char SQUARE_NOT_EMPTY[MAX_CHARS] = "\t\t\tInvalid move!Square already taken - player %c to try again\n";
+char EXIT_MESSAGE[MAX_CHARS] = "\tThank you for playing\n";
 
 
 
@@ -49,6 +50,7 @@ int main()
     //        update the board with the players move (assuming valid move)
     //        check for win or draw
     do {
+        // first section of code is parsing user input, validating & processing the quit command
         console.writeTicTacToeBoard(board); 
         sprintf_s(userString, MAX_CHARS, ENTER_MOVE, board.getPlayer());
         string userInput = console.getUserInput(userString);
@@ -68,7 +70,7 @@ int main()
         }
 
         // Wasn't a command - check if row & column entered
-        //   must be two unsigned integers between 0 & 2 (BAD - use board class constants)
+        //   must be two unsigned integers between 0 & 2 (ToDo BAD - use board class constants)
         num_args = sscanf_s(userInput.c_str(), "%u %u", &row, &col);
         if ((num_args != 2) || (row > 2) || (col > 2)) {
             console.writeOutput(INVALID_COMMAND);
@@ -109,7 +111,6 @@ int main()
             }
         }
         else {        // square already taken
-            // cout << "Invalid move! Square already taken - player " << board.getPlayer() << " to try again\n";
             sprintf_s(userString, MAX_CHARS, SQUARE_NOT_EMPTY, board.getPlayer());
             console.writeOutput(userString);
         }
