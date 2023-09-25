@@ -52,7 +52,7 @@ int main()
     do {
         // first section of code is parsing user input, validating & processing the quit command
         console.writeTicTacToeBoard(board); 
-        sprintf_s(userString, MAX_CHARS, ENTER_MOVE, board.getPlayer());
+        sprintf_s(userString, MAX_CHARS, ENTER_MOVE, board.getPlayerName());
         string userInput = console.getUserInput(userString);
 
         // parse input string for single character
@@ -94,7 +94,7 @@ int main()
 
             if (board.isWinner(board.getPlayer())) {  // a win?
                 console.writeTicTacToeBoard(board); 
-                sprintf_s(userString, MAX_CHARS, PLAYER_WIN, board.getPlayer());
+                sprintf_s(userString, MAX_CHARS, PLAYER_WIN, board.getPlayerName());
                 console.writeOutput(userString);
                 board.resetBoard();
                 board.nextPlayer();  // player who lost gets to go first
@@ -111,7 +111,7 @@ int main()
             }
         }
         else {        // square already taken
-            sprintf_s(userString, MAX_CHARS, SQUARE_NOT_EMPTY, board.getPlayer());
+            sprintf_s(userString, MAX_CHARS, SQUARE_NOT_EMPTY, board.getPlayerName());
             console.writeOutput(userString);
         }
     } while (1);

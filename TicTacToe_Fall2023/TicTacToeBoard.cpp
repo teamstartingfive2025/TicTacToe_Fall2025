@@ -5,7 +5,8 @@
 /*
  * ToDo - Validate row & columns everywhere  (highest priority - poor OO coding!!!
  * ToDo - create ENUM for players
- * ToDo - create ENUM for entries in board
+ * ToDo - Separate player name from 'X' and 'O' characters - e.g. default player name to character, but then allow it to change
+ * ToDo - Create mapping function from enum to display character
  * ToDo - create define or constant for Error returns
 */
 
@@ -24,19 +25,18 @@ TicTacToeBoard::TicTacToeBoard() {
 }
 
 // Reset board and variable tracking # of spaces played in current game
-//   ToDo - bad - hardcoded empty space as a ' ', really should use enums
 void TicTacToeBoard::resetBoard() {
 	takenSquareCount = 0;
 	for (int r = 0; r < BOARD_NUM_ROWS; r++) {
 		for (int c = 0; c < BOARD_NUM_COLS; c++) {
-			board[r][c] = ' ';
+			board[r][c] = EMPTY;
 		}
 	}
 }
 
 // If specified space is empty - return true
 bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
-	if (board[row][col] == ' ')
+	if (board[row][col] == EMPTY)
 		return true;
 	else
 		return false;
@@ -44,7 +44,7 @@ bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 
 // Updates space to the player (marker) specified, return false if space not empty
 //   ToDo - bad - not validating row & col prior to indexing into array
-bool TicTacToeBoard::writeSquare(int row, int col, char currentPlayer) {
+bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
 	if (this -> isSquareEmpty(row, col)) {
 		board[row][col] = currentPlayer;
 		takenSquareCount++;
@@ -57,27 +57,31 @@ bool TicTacToeBoard::writeSquare(int row, int col, char currentPlayer) {
 
 // Returns character (ie player marker) in the given row/col
 char TicTacToeBoard::getSquareContents(int row, int col) {
-	return board[row][col];
+	return playerMap(board[row][col]);
 }
 
-// Returns the current player (currnetly a character)
-char TicTacToeBoard::getPlayer() {
+// Returns the current player (enum)
+TicTacToeBoard::Player TicTacToeBoard::getPlayer() {
 	return player;
 }
 
+// Returns player name (character)
+char TicTacToeBoard::getPlayerName() {
+	return playerMap(player);
+}
+
 // Toggles next to play (e.g. if current player is X, next to play is O)
-//   ToDo - hardcoded the players here, bad coding practice, should use enums
-char TicTacToeBoard::nextPlayer() {
-	if (player == 'X')
-		player = 'O';
+TicTacToeBoard::Player TicTacToeBoard::nextPlayer() {
+	if (player == X)
+		player = O;
 	else
-		player = 'X';
+		player = X;
 	return player;
 }
 
 // Return true if specified player has won the game
 //   ToDo - tighten up this check - works but could be cleaner
-bool TicTacToeBoard::isWinner(char playerToCheck) {
+bool TicTacToeBoard::isWinner(Player playerToCheck) {
 	// check rows
 	for (int r = 0; r < BOARD_NUM_ROWS; r++) {
 		if ((board[r][0] == playerToCheck) &&
@@ -111,9 +115,21 @@ bool TicTacToeBoard::isWinner(char playerToCheck) {
 
 // Return true if game is a Draw - all squares filled and no one has won
 bool TicTacToeBoard::isDraw() {
-	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && !this->isWinner('X') && !this->isWinner('O')) {
+	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && !this->isWinner(X) && !this->isWinner(O)) {
 		return (true);
 	}
 	else
 		return(false);
+}
+
+// map enum to character
+char TicTacToeBoard::playerMap(Player player) {
+	switch (player) {
+	case X:
+		return 'X';
+	case O:
+		return 'O';
+	default:
+		return ' ';
+	}
 }

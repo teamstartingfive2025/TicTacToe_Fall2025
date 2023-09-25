@@ -4,34 +4,38 @@
  *     Scope - all aspects of the board, including defining the # rows & columns, win conditions, current/starting player
  *        supports retrieving data elements for displaying the board
  *        ideally, use BOARD_NUM_ROWS and BOARD_NUM_COLS to reference board dimensions
- * constructor - initializes board, initializes player
+ * constructor - initializes board via resetBoard() method
  * int resetBoard() - initializes board
- * boolean isSquareEmpty(int row, int column) - ultimately, ENUMs
- *    true = empty, false otherwise
- * int writeSquare(int row, int column, char player) ? ENUMsreturns ERROR if can’t write squareif successful, updates to other player
- * char getSquareContents(int row, int column) ? ENUMsreturns character for player (e.g. X, O, blank)
- * char getPlayer()returns player whose turn it is
+ * boolean isSquareEmpty(int row, int column) - true = empty, false otherwise
+ * int writeSquare(int row, int column, Player player) returns ERROR if can’t write square
+ * char getSquareContents(int row, int column) sreturns character for player (e.g. X, O, blank)
+ * Player getPlayer()returns player (enum) whose turn it is
+ * char getPlayerName()returns player (character) whose turn it is
  */
 class TicTacToeBoard
 {
 #define BOARD_NUM_ROWS 3
 #define BOARD_NUM_COLS 3
-#define INITIAL_PLAYER 'X'
-
-private:  // reserve memory for board & current player
-	char board[BOARD_NUM_ROWS][BOARD_NUM_COLS];      // board storage, indexed by row [0-2] and column [0-2]
-	char player = INITIAL_PLAYER;                    // tracks the current player, ie next symbol placed
-	int takenSquareCount = 0;                        // # of spaces played in current game, reset for new games
+#define INITIAL_PLAYER X
 
 
 public:
+	enum Player { X, O, EMPTY};    // define player enums, map to display character
+
 	TicTacToeBoard();
 	void resetBoard();
 	bool isSquareEmpty(int row, int col) const;
-	bool writeSquare(int row, int col, char currentPlayer);  // returns true if successfully written, false on failure
-	char getSquareContents(int row, int col);
-	char getPlayer();
-	char nextPlayer();   // swap player for next move, returns player
-	bool isWinner(char playerToCheck); // check if specified player has won
+	bool writeSquare(int row, int col, Player currentPlayer);  // returns true if successfully written, false on failure
+	char getSquareContents(int row, int col);       // used for displaying board, return as character
+	Player getPlayer();								// returns internal ID (ie enum) of the player
+	char getPlayerName();							// returns name of the player - hardcoded as 'X' or 'O'
+	Player nextPlayer();   // swap player for next move, returns new player
+	bool isWinner(Player playerToCheck); // check if specified player has won
 	bool isDraw(); // check if a draw
+
+private:  // reserve memory for board & current player
+	Player board[BOARD_NUM_ROWS][BOARD_NUM_COLS];      // board storage, indexed by row [0-2] and column [0-2]
+	Player player = INITIAL_PLAYER;                    // tracks the current player, ie next symbol placed
+	int takenSquareCount = 0;                        // # of spaces played in current game, reset for new games
+	char playerMap(Player player);					// map player enum to player character - ToDo - create mapping list rather than switch statement
 };

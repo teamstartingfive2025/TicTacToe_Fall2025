@@ -2,6 +2,13 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="TicTacToeBoard">
     <Position X="0.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="TicTacToeBoard::Player" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TicTacToeBoard.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQICAAAAAAACAAAAAgYBIAAgAABAAEA=</HashCode>
       <FileName>TicTacToeBoard.h</FileName>
