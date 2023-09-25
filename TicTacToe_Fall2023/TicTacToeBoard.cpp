@@ -10,7 +10,7 @@
 */
 
 /*
- * Instance variables
+ * Instance variables (declared in header file)
  *   board[][] - two dimensional array indexed by row (0-2) & column (0-2), cleared when starting a new game
  *   takenSquareCount - integer tracking # of moves in the game, reset at instance creation & on starting a new game
  *   player - character indicating the player making the current move
@@ -18,13 +18,12 @@
  *     current player is tracked and can be retrived by the board class, but is updated from outside the class via nextPlayer()
  */
 
-// Constructor
-//   reset board, player intialized in .h file when memory allocated
+// Constructor -- initialize all board spaces to empty, starting player intialized in .h file when memory allocated
 TicTacToeBoard::TicTacToeBoard() {
 	resetBoard();
 }
 
-// reset the board and the instance variable tracking # of spaces played
+// Reset board and variable tracking # of spaces played in current game
 //   ToDo - bad - hardcoded empty space as a ' ', really should use enums
 void TicTacToeBoard::resetBoard() {
 	takenSquareCount = 0;
@@ -35,7 +34,7 @@ void TicTacToeBoard::resetBoard() {
 	}
 }
 
-// checking if a given space is empty - returns true if empty
+// If specified space is empty - return true
 bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 	if (board[row][col] == ' ')
 		return true;
@@ -43,7 +42,7 @@ bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 		return false;
 }
 
-// updates a space to the player (character) specified
+// Updates space to the player (marker) specified, return false if space not empty
 //   ToDo - bad - not validating row & col prior to indexing into array
 bool TicTacToeBoard::writeSquare(int row, int col, char currentPlayer) {
 	if (this -> isSquareEmpty(row, col)) {
@@ -56,17 +55,17 @@ bool TicTacToeBoard::writeSquare(int row, int col, char currentPlayer) {
 	}
 }
 
-// returns character (ie player marker) in the given row/col
+// Returns character (ie player marker) in the given row/col
 char TicTacToeBoard::getSquareContents(int row, int col) {
 	return board[row][col];
 }
 
-// returns the current player
+// Returns the current player (currnetly a character)
 char TicTacToeBoard::getPlayer() {
 	return player;
 }
 
-// updates the player who has the next turn
+// Toggles next to play (e.g. if current player is X, next to play is O)
 //   ToDo - hardcoded the players here, bad coding practice, should use enums
 char TicTacToeBoard::nextPlayer() {
 	if (player == 'X')
@@ -76,7 +75,7 @@ char TicTacToeBoard::nextPlayer() {
 	return player;
 }
 
-// checks if the specified player has won the game
+// Return true if specified player has won the game
 //   ToDo - tighten up this check - works but could be cleaner
 bool TicTacToeBoard::isWinner(char playerToCheck) {
 	// check rows
@@ -110,7 +109,7 @@ bool TicTacToeBoard::isWinner(char playerToCheck) {
 }
 
 
-// Draw - all squares filled and no one has one
+// Return true if game is a Draw - all squares filled and no one has won
 bool TicTacToeBoard::isDraw() {
 	if ((takenSquareCount >= BOARD_NUM_ROWS * BOARD_NUM_COLS) && !this->isWinner('X') && !this->isWinner('O')) {
 		return (true);

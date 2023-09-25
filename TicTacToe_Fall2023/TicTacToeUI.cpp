@@ -31,11 +31,11 @@ TicTacToeUI::TicTacToeUI() {
 }
 
 
-// getUserInput()
+// getUserInput() - writes string to output and returns subsequent user input as a lower case string
 //   prompts user with string included in call
 //   waits for user input, echoes the input & returns it to caller
-//     note: does not trim leading white space
-
+//   note: does not trim leading white space
+//
 string TicTacToeUI::getUserInput(string prompt) {
     string userInput;
 
@@ -46,16 +46,16 @@ string TicTacToeUI::getUserInput(string prompt) {
     return userInput;
 }
 
-// writeOutput()
-//   writes passed string to console
+// writeOutput() - writes parameter to output
+//   
 int TicTacToeUI::writeOutput(string output) {
     cout << output;
     return(0);
 }
 
 // Draws board based on data from board class
-// Issues - hard coding last row & column to avoid drawing delimiter - e.g. |
-
+// ToDo - find alternative to hard coding last row & column to avoid drawing delimiter - e.g. |
+//
 int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) {
     // loop thru all rows and all columns, retrieving contents from board class & displaying
     cout << "\n";

@@ -135,6 +135,9 @@
     <ClInclude Include="TicTacToeBoard.h" />
     <ClInclude Include="TicTacToeUI.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

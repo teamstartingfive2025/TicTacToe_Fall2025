@@ -1,6 +1,9 @@
 #pragma once
 /*
  * board class - TicTacToeBoard
+ *     Scope - all aspects of the board, including defining the # rows & columns, win conditions, current/starting player
+ *        supports retrieving data elements for displaying the board
+ *        ideally, use BOARD_NUM_ROWS and BOARD_NUM_COLS to reference board dimensions
  * constructor - initializes board, initializes player
  * int resetBoard() - initializes board
  * boolean isSquareEmpty(int row, int column) - ultimately, ENUMs
@@ -16,9 +19,9 @@ class TicTacToeBoard
 #define INITIAL_PLAYER 'X'
 
 private:  // reserve memory for board & current player
-	char board[BOARD_NUM_ROWS][BOARD_NUM_COLS];
-	char player = INITIAL_PLAYER;
-	int takenSquareCount = 0;
+	char board[BOARD_NUM_ROWS][BOARD_NUM_COLS];      // board storage, indexed by row [0-2] and column [0-2]
+	char player = INITIAL_PLAYER;                    // tracks the current player, ie next symbol placed
+	int takenSquareCount = 0;                        // # of spaces played in current game, reset for new games
 
 
 public:
