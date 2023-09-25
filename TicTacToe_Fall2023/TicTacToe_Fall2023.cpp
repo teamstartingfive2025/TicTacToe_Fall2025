@@ -76,8 +76,7 @@ int main()
             console.writeOutput(INVALID_COMMAND);
             continue;
         }
-        sprintf_s(userString, MAX_CHARS, SHOW_MOVE, row, col);
-        console.writeOutput(userString);
+        console.writeOutput(SHOW_MOVE, row, col);
 
 
         // core game logic below
@@ -94,25 +93,22 @@ int main()
 
             if (board.isWinner(board.getPlayer())) {  // a win?
                 console.writeTicTacToeBoard(board); 
-                sprintf_s(userString, MAX_CHARS, PLAYER_WIN, board.getPlayerName());
-                console.writeOutput(userString);
+                console.writeOutput(PLAYER_WIN, board.getPlayerName());
                 board.resetBoard();
-                board.nextPlayer();  // player who lost gets to go first
+                // player who lost gets to go first
             }
             else if (board.isDraw()) {  // a draw?
                 console.writeTicTacToeBoard(board); 
                 console.writeOutput(PLAYER_DRAW);
                 board.resetBoard();
-                board.nextPlayer();  // player who made the last move, gets to go second
+                // player who made the last move, gets to go second
             }
 
-            else {                    // the game goes on
-                board.nextPlayer();
-            }
+            else {}               // nothing to do here, the game goes on
+            board.nextPlayer();   // all scenarios - if valid move, toggle player, if win/draw - loser/other player to play
         }
         else {        // square already taken
-            sprintf_s(userString, MAX_CHARS, SQUARE_NOT_EMPTY, board.getPlayerName());
-            console.writeOutput(userString);
+            console.writeOutput(SQUARE_NOT_EMPTY, board.getPlayerName());
         }
     } while (1);
 

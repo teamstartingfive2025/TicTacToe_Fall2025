@@ -36,7 +36,7 @@ TicTacToeUI::TicTacToeUI() {
 //   waits for user input, echoes the input & returns it to caller
 //   note: does not trim leading white space
 //
-string TicTacToeUI::getUserInput(string prompt) {
+string TicTacToeUI::getUserInput(char* prompt) {
     string userInput;
 
     writeOutput(prompt);
@@ -48,9 +48,27 @@ string TicTacToeUI::getUserInput(string prompt) {
 
 // writeOutput() - writes parameter to output
 //   
-int TicTacToeUI::writeOutput(string output) {
+int TicTacToeUI::writeOutput(char* output) {
     cout << output;
-    return(0);
+    return 0;
+}
+
+int TicTacToeUI::writeOutput(char *output, char arg) {
+    const int MAX_CHARS = 128;
+    char userString[MAX_CHARS];
+
+    sprintf_s(userString, MAX_CHARS, output, arg);
+    writeOutput(userString);
+    return 0;
+}
+
+int TicTacToeUI::writeOutput(char* output, int arg1, int arg2) {
+    const int MAX_CHARS = 128;
+    char userString[MAX_CHARS];
+
+    sprintf_s(userString, MAX_CHARS, output, arg1, arg2);
+    writeOutput(userString);
+    return 0;
 }
 
 // Draws board based on data from board class

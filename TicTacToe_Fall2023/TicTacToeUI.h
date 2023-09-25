@@ -16,8 +16,10 @@ class TicTacToeUI
 {
 public:
 	TicTacToeUI();
-	int writeOutput(string output);
-	string getUserInput(string prompt);
+	int writeOutput(char* output, char arg);
+	int writeOutput(char* output, int arg1, int arg2);
+	int writeOutput(char* output);
+	string getUserInput(char* prompt);
 	int writeTicTacToeBoard(TicTacToeBoard board);
 };
 
