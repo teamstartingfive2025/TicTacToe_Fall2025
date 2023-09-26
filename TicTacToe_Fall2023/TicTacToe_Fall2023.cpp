@@ -37,6 +37,10 @@ int main()
     unsigned int row;        // row entered by user
     unsigned int col;        // column entered by user
 
+    // helper functions
+    void someoneWins(TicTacToeUI console, TicTacToeBoard& board);
+    void itsaDraw(TicTacToeUI console, TicTacToeBoard& board);
+
     console.writeOutput(INTRO_MESSAGE);
 
     // ToDo - game play instuctions
@@ -90,28 +94,40 @@ int main()
         if (board.isSquareEmpty(row, col)) {
             board.writeSquare(row, col, board.getPlayer());
 
-
             if (board.isWinner(board.getPlayer())) {  // a win?
-                console.writeTicTacToeBoard(board); 
-                console.writeOutput(PLAYER_WIN, board.getPlayerName());
-                board.resetBoard();
-                // player who lost gets to go first
+                someoneWins(console, board);
             }
             else if (board.isDraw()) {  // a draw?
-                console.writeTicTacToeBoard(board); 
-                console.writeOutput(PLAYER_DRAW);
-                board.resetBoard();
-                // player who made the last move, gets to go second
+                itsaDraw(console, board);
             }
-
-            else {}               // nothing to do here, the game goes on
-            board.nextPlayer();   // all scenarios - if valid move, toggle player, if win/draw - loser/other player to play
+            else {                                  // game goes on
+                board.nextPlayer();
+            }  
         }
         else {        // square already taken
             console.writeOutput(SQUARE_NOT_EMPTY, board.getPlayerName());
         }
     } while (1);
 
+}
+
+// Helper function - the current player has won - take the necessary steps
+//   note - need to pass by reference, otherwise it makes a copy of the board object
+//     could do the same for console, but not needed, should be stateless
+void someoneWins(TicTacToeUI console, TicTacToeBoard& board) {
+    console.writeTicTacToeBoard(board);
+    console.writeOutput(PLAYER_WIN, board.getPlayerName());
+    board.resetBoard();
+    board.nextPlayer();                // player who lost gets to go first
+}
+
+// helper function - it's a draw - reset & prepare for a new game
+//   note - need to pass by reference, otherwise it makes a copy of the board object
+void itsaDraw(TicTacToeUI console, TicTacToeBoard& board) {
+    console.writeTicTacToeBoard(board);
+    console.writeOutput(PLAYER_DRAW);
+    board.resetBoard();
+    board.nextPlayer();                // player who made the last move, gets to go second
 }
 
 
