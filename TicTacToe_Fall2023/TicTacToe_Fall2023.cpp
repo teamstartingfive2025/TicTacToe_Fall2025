@@ -96,9 +96,11 @@ int main()
 
             if (board.isWinner(board.getPlayer())) {  // a win?
                 someoneWins(console, board);
+                board.nextPlayer();                // player who lost gets to go first
             }
             else if (board.isDraw()) {  // a draw?
                 itsaDraw(console, board);
+                board.nextPlayer();                // player who made the last move, gets to go second
             }
             else {                                  // game goes on
                 board.nextPlayer();
@@ -118,7 +120,6 @@ void someoneWins(TicTacToeUI console, TicTacToeBoard& board) {
     console.writeTicTacToeBoard(board);
     console.writeOutput(PLAYER_WIN, board.getPlayerName());
     board.resetBoard();
-    board.nextPlayer();                // player who lost gets to go first
 }
 
 // helper function - it's a draw - reset & prepare for a new game
@@ -127,7 +128,6 @@ void itsaDraw(TicTacToeUI console, TicTacToeBoard& board) {
     console.writeTicTacToeBoard(board);
     console.writeOutput(PLAYER_DRAW);
     board.resetBoard();
-    board.nextPlayer();                // player who made the last move, gets to go second
 }
 
 
