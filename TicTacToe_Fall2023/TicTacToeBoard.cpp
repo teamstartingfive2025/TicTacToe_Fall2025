@@ -45,6 +45,9 @@ bool TicTacToeBoard::isSquareEmpty(int row, int col) const {
 // Updates space to the player (marker) specified, return false if space not empty
 //   ToDo - bad - not validating row & col prior to indexing into array
 bool TicTacToeBoard::writeSquare(int row, int col, Player currentPlayer) {
+	if ((row >= BOARD_NUM_ROWS) || (col >= BOARD_NUM_COLS)) {
+		throw std::invalid_argument("Invalid row or column passed to getSquareContents\n");
+	}
 	if (this -> isSquareEmpty(row, col)) {
 		board[row][col] = currentPlayer;
 		takenSquareCount++;
