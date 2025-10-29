@@ -54,6 +54,17 @@ int TicTacToeUI::writeOutput(char* output) const {
     return 0;
 }
 
+// refactor to improve console handling ...
+// overload of writeOutput() giving option to clear screen
+// writeOutput() - writes parameter to output
+//   
+int TicTacToeUI::writeOutput(char* output, bool clearScreenPrior) const {
+    if (clearScreenPrior)
+        system("cls");
+    cout << output;
+    return 0;
+}
+
 int TicTacToeUI::writeOutput(char *output, char arg) const {
     const int MAX_CHARS = 128;
     char userString[MAX_CHARS];
@@ -78,14 +89,14 @@ int TicTacToeUI::writeOutput(char* output, int arg1, int arg2) const {
 int TicTacToeUI::writeTicTacToeBoard(TicTacToeBoard board) const {
     // loop thru all rows and all columns, retrieving contents from board class & displaying
     cout << "\n";
-    for (int r = 0; r < BOARD_NUM_ROWS; r++) {
+    for (int r = 0; r < TicTacToeBoard::BOARD_NUM_ROWS; r++) {
         cout << "\t\t\t\t";
-        for (int c = 0; c < BOARD_NUM_COLS; c++) {
+        for (int c = 0; c < TicTacToeBoard::BOARD_NUM_COLS; c++) {
             cout << " " << board.getSquareContents(r,c);
-            if (c < BOARD_NUM_COLS - 1)
+            if (c < TicTacToeBoard::BOARD_NUM_COLS - 1)
                 cout << " |";
         }
-        if (r < BOARD_NUM_ROWS - 1)
+        if (r < TicTacToeBoard::BOARD_NUM_ROWS - 1)
             cout << "\n\t\t\t\t------------\n";
         else
             cout << "\n\n";

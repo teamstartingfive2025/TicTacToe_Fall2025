@@ -19,6 +19,7 @@ public:
 	int writeOutput(char* output, char arg) const;
 	int writeOutput(char* output, int arg1, int arg2) const;
 	int writeOutput(char* output) const;
+	int writeOutput(char* output, bool clearScreenPriorToWrite) const;
 	string getUserInput(char* prompt) const;
 
 	int writeTicTacToeBoard(TicTacToeBoard board) const;

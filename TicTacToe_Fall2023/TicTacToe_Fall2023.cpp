@@ -7,20 +7,25 @@
 
 #define MAX_CHARS 128     // max size of the user output buffer
 
+char GAME_VERSION[MAX_CHARS] = "Version: 2025 v1.0\n";
+
 // User Messages - format intended for sprintf_s
 //   ToDo - mark as constants
-char INTRO_MESSAGE[MAX_CHARS] = "Welcome to Tic Tac Toe, class of Fall 2023!\n";
+char INTRO_MESSAGE[MAX_CHARS] = "Welcome to Tic Tac Toe, class of Fall 2025!\n";
 char ENTER_MOVE[MAX_CHARS] = "Player %c to play, please enter two digits, row[0 - 2] & column[0 - 2] or q to exit: ";
 char SHOW_MOVE[MAX_CHARS] = "You entered ... Row: %u\tColumn: %u\n";
 
 // Game over messages
-char PLAYER_WIN[MAX_CHARS] = "\tPlayer %c has won!\n   Resetting board, q to exit\n";
-char PLAYER_DRAW[MAX_CHARS] = "\tIt's a DRAW!\n   Resetting board, q to exit\n";
+char PLAYER_WIN[MAX_CHARS] = "\tGame over - Player %c has won!\n   Resetting board, q to exit\n";
+char PLAYER_DRAW[MAX_CHARS] = "\tGame over - It's a DRAW!\n   Resetting board, q to exit\n";
 
 // Error messages
 char INVALID_COMMAND[MAX_CHARS] = "\t\t\tInvalid entry - please try again\n";
 char SQUARE_NOT_EMPTY[MAX_CHARS] = "\t\t\tInvalid move!Square already taken - player %c to try again\n";
 char EXIT_MESSAGE[MAX_CHARS] = "\tThank you for playing\n";
+
+// hack - empty message to clear screen (ToDo - get rid of this)
+char CLEAR_SCREEN[MAX_CHARS] = "";
 
 
 
@@ -42,6 +47,7 @@ int main()
     void itsaDraw(TicTacToeUI console, TicTacToeBoard& board);
 
     console.writeOutput(INTRO_MESSAGE);
+    console.writeOutput(GAME_VERSION);
 
     // ToDo - game play instuctions
     //
@@ -63,7 +69,7 @@ int main()
         num_args = sscanf_s(userInput.c_str(), "%c", &command, 1);
 
         if (num_args == 0) {  // no character entered, digits seem to work okay here
-            console.writeOutput(INVALID_COMMAND);
+            console.writeOutput(INVALID_COMMAND, true);
             continue;
         }
 
@@ -77,9 +83,10 @@ int main()
         //   must be two unsigned integers between 0 & 2 (ToDo BAD - use board class constants)
         num_args = sscanf_s(userInput.c_str(), "%u %u", &row, &col);
         if ((num_args != 2) || (row > 2) || (col > 2)) {
-            console.writeOutput(INVALID_COMMAND);
+            console.writeOutput(INVALID_COMMAND, true);
             continue;
         }
+        console.writeOutput(CLEAR_SCREEN, true);
         console.writeOutput(SHOW_MOVE, row, col);
 
 
