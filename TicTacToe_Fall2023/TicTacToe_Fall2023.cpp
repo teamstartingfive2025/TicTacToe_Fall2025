@@ -7,6 +7,8 @@
 
 #define MAX_CHARS 128     // max size of the user output buffer
 
+char GAME_VERSION[MAX_CHARS] = "Version: 2025 v1.0\n";
+
 // User Messages - format intended for sprintf_s
 //   ToDo - mark as constants
 char INTRO_MESSAGE[MAX_CHARS] = "Welcome to Tic Tac Toe, class of Fall 2025!\n";
@@ -14,8 +16,8 @@ char ENTER_MOVE[MAX_CHARS] = "Player %c to play, please enter two digits, row[0 
 char SHOW_MOVE[MAX_CHARS] = "You entered ... Row: %u\tColumn: %u\n";
 
 // Game over messages
-char PLAYER_WIN[MAX_CHARS] = "\tPlayer %c has won!\n   Resetting board, q to exit\n";
-char PLAYER_DRAW[MAX_CHARS] = "\tIt's a DRAW!\n   Resetting board, q to exit\n";
+char PLAYER_WIN[MAX_CHARS] = "\tGame over - Player %c has won!\n   Resetting board, q to exit\n";
+char PLAYER_DRAW[MAX_CHARS] = "\tGame over - It's a DRAW!\n   Resetting board, q to exit\n";
 
 // Error messages
 char INVALID_COMMAND[MAX_CHARS] = "\t\t\tInvalid entry - please try again\n";
@@ -45,6 +47,7 @@ int main()
     void itsaDraw(TicTacToeUI console, TicTacToeBoard& board);
 
     console.writeOutput(INTRO_MESSAGE);
+    console.writeOutput(GAME_VERSION);
 
     // ToDo - game play instuctions
     //
