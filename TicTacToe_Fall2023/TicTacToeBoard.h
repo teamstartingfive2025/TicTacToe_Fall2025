@@ -1,38 +1,50 @@
 #pragma once
-/*
- * board class - TicTacToeBoard
+/*****************************************************************//**
+ * \file   TicTacToeBoard.h
+ * \brief  board class - TicTacToeBoard
  *     Scope - all aspects of the board, including defining the # rows & columns, win conditions, current/starting player
  *        supports retrieving data elements for displaying the board
- *        ideally, use BOARD_NUM_ROWS and BOARD_NUM_COLS to reference board dimensions
- * constructor - initializes board via resetBoard() method
- * int resetBoard() - initializes board
- * boolean isSquareEmpty(int row, int column) - true = empty, false otherwise
- * int writeSquare(int row, int column, Player player) returns ERROR if can’t write square
- * char getSquareContents(int row, int column) sreturns character for player (e.g. X, O, blank)
- * Player getPlayer()returns player (enum) whose turn it is
- * char getPlayerName()returns player (character) whose turn it is
- */
+ * 
+ * \author Lee
+ * \date   updated: October 2025
+ * 
+ * Implementation notes:
+ *     - Player enum is used for both the name of the player & for the player's move
+ *     - lots of Technical debt in this implementation, including need to consistently use BOARD_NUM_ROWS and BOARD_NUM_COLS
+ * 
+ * constructor                                 - initializes board via resetBoard() method
+ * resetBoard()                                - initializes board & number of turns played in current game
+ * bool isSquareEmpty(int row, int column)     - returns true = empty, false otherwise
+ * bool writeSquare(int row, int column, Player player) - returns false if can’t write square
+ * char getSquareContents(int row, int column) - returns character in specified square (e.g. 'X', 'O', ' ')
+ * Player getPlayer()                          - returns player (enum) whose turn it is
+ * char getPlayerName()                        - returns player (character) whose turn it is
+ * Player nextPlayer()                         - returns Player (ie enum) of the next player (e.g. if O playing, returns X)
+ * bool isWinner(Player playerToCheck)         - true if the specified player has won, false otherwise
+ * bool isDraw()                               - true if no-one has won, false otherwise (e.g. consider - no spaces empty) 
+ **/
+
 class TicTacToeBoard
 {
-
-
-#define BOARD_NUM_ROWS 3
-#define BOARD_NUM_COLS 3
-#define INITIAL_PLAYER X
-
 
 public:
 	enum Player { X, O, EMPTY};    // define player enums, map to display character
 
+	// define some constants for public consumption, note initial player defined here in the Board class
+	static constexpr int BOARD_NUM_ROWS = 3;
+	static constexpr int BOARD_NUM_COLS = 3;
+	static constexpr Player INITIAL_PLAYER = Player::X;
+
+
 	TicTacToeBoard();
-	void resetBoard();
-	bool isSquareEmpty(int row, int col) const;
+	void resetBoard();										// resets the squares to EMPTY as the # of turns played in the current game
+	bool isSquareEmpty(int row, int col) const;				// returns true if given space is empty, false if already occupied
 	bool writeSquare(int row, int col, Player currentPlayer);  // returns true if successfully written, false on failure
-	char getSquareContents(int row, int col) const;       // used for displaying board, return as character
+	char getSquareContents(int row, int col) const;       // used for displaying board, return player character
 	Player getPlayer() const;								// returns internal ID (ie enum) of the player
-	char getPlayerName() const;							// returns name of the player - hardcoded as 'X' or 'O'
-	Player nextPlayer();   // swap player for next move, returns new player
-	bool isWinner(Player playerToCheck) const; // check if specified player has won
+	char getPlayerName() const;							  // returns name of the player - hardcoded as 'X' or 'O'
+	Player nextPlayer();					              // swap player for next move, returns new player
+	bool isWinner(Player playerToCheck) const;           // check if specified player has won
 	bool isDraw() const; // check if a draw
 
 private:  // reserve memory for board & current player

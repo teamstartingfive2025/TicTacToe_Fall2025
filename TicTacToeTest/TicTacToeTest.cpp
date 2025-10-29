@@ -32,6 +32,10 @@ namespace TicTacToeTest
 			Assert::AreEqual(board.getSquareContents(0, 0), 'X');
 			Assert::IsFalse(board.isSquareEmpty(0, 0));
 		}
+		TEST_METHOD(TestException) {
+			Logger::WriteMessage("Testing Exception handling in getSquareContents - throw invalid argument");
+			board.getSquareContents(3, 1);  // should throw an exception as 3 is invalid
+		}
 		TEST_METHOD(InvalidMove) {
 			// :writeSquare(int row, int col, char currentPlayer)
 			// :getSquareContents(int row, int col)
