@@ -11,6 +11,7 @@
  * Implementation notes:
  *     - Player enum is used for both the name of the player & for the player's move
  *     - lots of Technical debt in this implementation, including need to consistently use BOARD_NUM_ROWS and BOARD_NUM_COLS
+ *     - the range for valid rows & columns is [0,2], all other values are invalid
  * 
  * constructor                                 - initializes board via resetBoard() method
  * resetBoard()                                - initializes board & number of turns played in current game

@@ -26,11 +26,23 @@ namespace TicTacToeTest
 			// :getSquareContents(int row, int col)
 			// :isSquareEmpty(int row, int col) 
 			Logger::WriteMessage("Testing we can write X & O into different cells\n");
-			// write a cell & verify the cell is written correctly
+			// write cell 0,0 & verify the cell is written correctly
 			Assert::IsTrue(board.isSquareEmpty(0, 0));
 			board.writeSquare(0, 0, TicTacToeBoard::X);
-			Assert::AreEqual(board.getSquareContents(0, 0), 'X');
+			Assert::AreEqual('X', board.getSquareContents(0, 0), L"Expected X in 0,0, but received something else");
 			Assert::IsFalse(board.isSquareEmpty(0, 0));
+
+			// now test other extreme row 2, column 2, mix it up & write O into this square
+			Assert::IsTrue(board.isSquareEmpty(2, 2));
+			board.writeSquare(2, 2, TicTacToeBoard::O);
+			Assert::AreEqual('O', board.getSquareContents(2, 2), L"Expected O in 2,2, but received something else");
+			Assert::IsFalse(board.isSquareEmpty(2, 2));
+
+			// now test something int he middle - e.g. 1, 1
+			Assert::IsTrue(board.isSquareEmpty(1, 1));
+			board.writeSquare(1,1, TicTacToeBoard::O);
+			Assert::AreEqual('O', board.getSquareContents(2, 2), L"Expected O in 1,1, but received something else");
+			Assert::IsFalse(board.isSquareEmpty(1,1));
 		}
 		TEST_METHOD(TestException) {
 			Logger::WriteMessage("Testing Exception handling in getSquareContents - throw invalid argument");
@@ -54,6 +66,7 @@ namespace TicTacToeTest
 * Implementation notes :
 * -Player enum is used for both the name of the player& for the player's move
 * -lots of Technical debt in this implementation, including need to consistently use BOARD_NUM_ROWS and BOARD_NUM_COLS
+* - the range for valid rows & columns is [0,2], all other values are invalid
 *
 * constructor - initializes board via resetBoard() method
 * resetBoard() - initializes board & number of turns played in current game
