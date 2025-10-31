@@ -58,6 +58,70 @@ namespace TicTacToeTest
 			Assert::AreEqual(board.getSquareContents(2, 3), 'X');
 			Assert::IsFalse(board.isSquareEmpty(2, 3));
 		}
+		TEST_METHOD(TestDraw) {
+			Logger::WriteMessage("Testing if draws work.");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 2, TicTacToeBoard::X);
+			board.writeSquare(2, 2, TicTacToeBoard::O);
+			board.writeSquare(2, 0, TicTacToeBoard::X);
+
+			Assert::IsTrue(board.isDraw());
+		}
+		TEST_METHOD(TestWinX) {
+			Logger::WriteMessage("Testing Win X Validation");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 2, TicTacToeBoard::X);
+			board.writeSquare(2, 2, TicTacToeBoard::X);
+			board.writeSquare(2, 0, TicTacToeBoard::X);
+
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::X));
+
+		}
+		TEST_METHOD(TestWinO) {
+			Logger::WriteMessage("Testing Win X Validation");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 2, TicTacToeBoard::O);
+			board.writeSquare(2, 2, TicTacToeBoard::O);
+			board.writeSquare(2, 0, TicTacToeBoard::O);
+
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::O));
+
+		}
+		TEST_METHOD(TestReset) {
+			Logger::WriteMessage("Testing Reset Board function.");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 2, TicTacToeBoard::O);
+			board.resetBoard();
+			Assert::IsTrue(board.isSquareEmpty(0, 0));
+			Assert::IsTrue(board.isSquareEmpty(0, 1));
+			Assert::IsTrue(board.isSquareEmpty(0, 2));
+			Assert::IsTrue(board.isSquareEmpty(1, 0));
+			Assert::IsTrue(board.isSquareEmpty(1, 1));
+			Assert::IsTrue(board.isSquareEmpty(1, 2));
+			Assert::IsTrue(board.isSquareEmpty(2, 0));
+			Assert::IsTrue(board.isSquareEmpty(2, 1));
+			Assert::IsTrue(board.isSquareEmpty(2, 2));
+		}
 
 	};
 }
