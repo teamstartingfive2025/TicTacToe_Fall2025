@@ -87,6 +87,22 @@ namespace TicTacToeTest
 			Assert::IsTrue(board.isWinner(TicTacToeBoard::X));
 
 		}
+		TEST_METHOD(TestWinO) {
+			Logger::WriteMessage("Testing Win X Validation");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 2, TicTacToeBoard::O);
+			board.writeSquare(2, 2, TicTacToeBoard::O);
+			board.writeSquare(2, 0, TicTacToeBoard::O);
+
+			Assert::IsTrue(board.isWinner(TicTacToeBoard::O));
+
+		}
+
 
 	};
 }
