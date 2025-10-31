@@ -102,6 +102,26 @@ namespace TicTacToeTest
 			Assert::IsTrue(board.isWinner(TicTacToeBoard::O));
 
 		}
+		TEST_METHOD(TestReset) {
+			Logger::WriteMessage("Testing Reset Board function.");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 2, TicTacToeBoard::O);
+			board.resetBoard();
+			Assert::IsTrue(board.isSquareEmpty(0, 0));
+			Assert::IsTrue(board.isSquareEmpty(0, 1));
+			Assert::IsTrue(board.isSquareEmpty(0, 2));
+			Assert::IsTrue(board.isSquareEmpty(1, 0));
+			Assert::IsTrue(board.isSquareEmpty(1, 1));
+			Assert::IsTrue(board.isSquareEmpty(1, 2));
+			Assert::IsTrue(board.isSquareEmpty(2, 0));
+			Assert::IsTrue(board.isSquareEmpty(2, 1));
+			Assert::IsTrue(board.isSquareEmpty(2, 2));
+		}
 
 	};
 }
