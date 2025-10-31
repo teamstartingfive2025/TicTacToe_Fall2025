@@ -58,6 +58,20 @@ namespace TicTacToeTest
 			Assert::AreEqual(board.getSquareContents(2, 3), 'X');
 			Assert::IsFalse(board.isSquareEmpty(2, 3));
 		}
+		TEST_METHOD(TestDraw) {
+			Logger::WriteMessage("Testing if draws work.");
+			board.writeSquare(0, 0, TicTacToeBoard::X);
+			board.writeSquare(0, 2, TicTacToeBoard::O);
+			board.writeSquare(0, 1, TicTacToeBoard::X);
+			board.writeSquare(1, 0, TicTacToeBoard::O);
+			board.writeSquare(1, 1, TicTacToeBoard::X);
+			board.writeSquare(2, 1, TicTacToeBoard::O);
+			board.writeSquare(1, 2, TicTacToeBoard::X);
+			board.writeSquare(2, 2, TicTacToeBoard::O);
+			board.writeSquare(2, 0, TicTacToeBoard::X);
+
+			Assert::IsTrue(board.isDraw());
+		}
 
 	};
 }
